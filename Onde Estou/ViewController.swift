@@ -33,21 +33,23 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let longitude = userLocation!.coordinate.longitude.binade
         let latitude = userLocation!.coordinate.latitude.binade
 
-        longitudeLabel!.text = String(longitude)
-        latitudeLabel!.text = String(latitude)
-        speedLabel!.text = String(speed)
+        self.longitudeLabel!.text = String(longitude)
+        self.latitudeLabel!.text = String(latitude)
+        if(speed > 0){
+            self.speedLabel!.text = String(speed)
+        }
         
         CLGeocoder().reverseGeocodeLocation(userLocation!) { (locationDetails, error) in
             if error == nil{
                 let localData = locationDetails?.first
-                var thoroughfare = ""
-                var subThoroughfare = ""
-                var locality = ""
-                var subLocality = ""
-                var postalCode = ""
-                var country = ""
-                var administrativeArea = ""
-                var subAdministrativeArea = ""
+                var thoroughfare:String = ""
+                var subThoroughfare:String = ""
+                var locality:String = ""
+                var subLocality:String = ""
+                var postalCode:String = ""
+                var country:String = ""
+                var administrativeArea:String = ""
+                var subAdministrativeArea:String = ""
                 
                 if localData?.thoroughfare != nil
                 {
@@ -81,6 +83,11 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 {
                     subAdministrativeArea = (localData?.subAdministrativeArea)!
                 }
+                
+                self.addressLabel.text = thoroughfare + " - "
+                                        + subThoroughfare + " / "
+                                        + locality + " / "
+                                        + country
                 
             }else{
                 print(error)
